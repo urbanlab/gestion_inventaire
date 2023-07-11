@@ -5,9 +5,10 @@
 		items.data = JSON.parse(window.localStorage.getItem('items')).data;
 		const input = e.target.value;
 		console.log('searchDesc');
-		// filter items.data.description with inputù
-		items.data = items.data.filter((item) => item?.descriptif?.includes(input));
-	}
+		
+		// filter items.data.description with input
+		items.data = items.data.filter((item) => item?.descriptif?.toLowerCase().includes(input.toLowerCase()));
+		}
 </script>
 
 <section class="overflow-y-scroll ">
