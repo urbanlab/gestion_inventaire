@@ -1,6 +1,7 @@
 <script>
-  import { json } from '@sveltejs/kit';
+  	import { json } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
+	import { env } from '$env/dynamic/public';
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 
@@ -12,7 +13,8 @@
 	
 
 	let items;
-	const itemRefreshTime = 1; // in minutes
+	const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
+	console.log(itemRefreshTime);
 
 	let saveItems = true;
 	const doNotsync = true;
