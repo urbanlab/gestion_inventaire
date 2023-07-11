@@ -10,16 +10,19 @@
 	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
+  	import { getAuth, logged, login, logout } from '$lib/store';
 	
 
 	let items;
 	const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
-	console.log(itemRefreshTime);
 
 	let saveItems = true;
-	const doNotsync = true;
+	const doNotsync = false;
+
+	let password = '';
 
 	onMount(() => {
+		getAuth();
 		document.title = 'Emprunt';
 		if (doNotsync) {
 			console.log('doNotsync');
@@ -74,7 +77,15 @@
 		}, 5000);
 	}
 </script>
-<div class="flex flex-co">
+<div class="flex flex-col">
+	{#if  !$logged}
+	<input type="text" placeholder="mot de passe" bind:value={password} />
+	<button on:click={() => login(password)}>login</button>
+	{/if}
+	{#if  $logged}
+	<button on:click={() => logout()}>logout</button>
 	<slot/>
 	<Nav/>
+	{/if}
+	
 </div>
