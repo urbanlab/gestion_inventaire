@@ -11,13 +11,22 @@
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
   	import { getAuth, logged, login, logout } from '$lib/store';
-	
+	import { ProgressBar } from '@skeletonlabs/skeleton';
 
 	let items;
 	const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
 	let saveItems = true;
 	const doNotsync = true;
+
+	let updating = true;
+
+	$: {
+		// check if loclStorage is empty
+		if (items) {
+			updating = false;
+		}
+	}
 
 	let password = '';
 
@@ -76,16 +85,26 @@
 			setLocalStorage();
 		}, 5000);
 	}
+
 </script>
 <div class="flex flex-col">
-	{#if  !$logged}
-	<input type="text" placeholder="mot de passe" bind:value={password} />
-	<button on:click={() => login(password)}>login</button>
+	{#if !$logged}
+		<input type="text" placeholder="mot de passe" bind:value={password} />
+		<button on:click={() => login(password)}>login</button>
 	{/if}
-	{#if  $logged}
-	<button on:click={() => logout()}>logout</button>
-	<slot/>
-	<Nav/>
+	{#if $logged}
+		<button on:click={() => logout()}>logout</button>
+		{#if updating}
+			<div class="relative">
+				<h1>Mise en cache des items de la techshop</h1>
+				<p>La première fois, cela peut prendre plusieurs minutes</p>
+				<ProgressBar label="Progress Bar" value={undefined}/>
+			</div>
+		{/if}
+		<div class="{updating ? "opacity-5" : ""}">
+			<slot/>
+			<Nav/>
+		</div>
 	{/if}
 	
 </div>
