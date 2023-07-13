@@ -12,19 +12,22 @@
 	import Nav from '$lib/components/Nav.svelte';
   	import { getAuth, logged, login, logout } from '$lib/store';
 	import { ProgressBar } from '@skeletonlabs/skeleton';
+	import Fa from 'svelte-fa'
+	import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons'
 
 	let items;
 	const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
 	let saveItems = true;
-	const doNotsync = true;
+	const doNotsync = false;
 
-	let updating = true;
+	let syncing = false;
+	let firstUpdate = true;
 
 	$: {
 		// check if loclStorage is empty
 		if (items) {
-			updating = false;
+			firstUpdate = false;
 		}
 	}
 
@@ -42,8 +45,10 @@
 	});
 
 	async function fetchItems() {
+		syncing = true;
 		const response = await fetch('/api/items');
 		const data = await response.json();
+		syncing = false;
 		return data;
 	}
 
@@ -93,15 +98,17 @@
 		<button on:click={() => login(password)}>login</button>
 	{/if}
 	{#if $logged}
-		<button on:click={() => logout()}>logout</button>
-		{#if updating}
+		<button on:click={() => logout()}>logout</button> 
+		<p>{syncing ? "syncronisation en cours" : "aucune synchronisation"}</p>
+		<span class="badge-icon variant-filled">{syncing}</span>
+		{#if firstUpdate}
 			<div class="relative">
 				<h1>Mise en cache des items de la techshop</h1>
 				<p>La première fois, cela peut prendre plusieurs minutes</p>
 				<ProgressBar label="Progress Bar" value={undefined}/>
 			</div>
 		{/if}
-		<div class="{updating ? "opacity-5" : ""}">
+		<div class="{firstUpdate ? "opacity-5" : ""}">
 			<slot/>
 			<Nav/>
 		</div>
