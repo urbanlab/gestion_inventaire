@@ -17,7 +17,7 @@
 	const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
 	let saveItems = true;
-	const doNotsync = false;
+	const doNotsync = true;
 
 	let password = '';
 
