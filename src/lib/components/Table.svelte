@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { InputChip } from "@skeletonlabs/skeleton";
+
 	export let items: any;
 
 	function searchDesc(e) {
@@ -13,18 +15,17 @@
 
 <section class="overflow-y-scroll ">
 	{#if items?.data}
-        <div class="fixed bg-slate-500 w-full p-5">
-            <h1>Recherche</h1>
-            <input
-				class="text-black"
-                type="text"
-                on:input={(e) => {
-                    searchDesc(e);
-                }}
-            />
+        <div class="card rounded-b-none fixed w-full p-5">
+            <h1 class="mb-4">Recherche</h1>
+			<InputChip
+				name="search"
+				on:input={(e) => {
+					searchDesc(e);
+				}}
+			/>
         </div>
 		<div class="table-container w-screen">
-			<table class="table table-hover table-compact mt-24">
+			<table class="table table-hover table-compact mt-40 ">
 				<thead>
 					<tr>
 						<th>desc</th>
