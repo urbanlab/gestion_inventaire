@@ -3,9 +3,12 @@
 	import { SlideToggle, ProgressBar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import type { Item } from '../../models/item';
-  import Notification from './Notification.svelte';
-  import { notification } from '$lib/store';
-	
+	import Notification from './Notification.svelte';
+	import { notification } from '$lib/store';
+	import Fa from 'svelte-fa'
+	import { faTrash } from '@fortawesome/free-solid-svg-icons'
+
+		
 	export let items: any;
 	export let currentBarcodes: Array<string> = [];
 	let itemsBasket: any[] = [];
@@ -109,7 +112,7 @@
 			</div>
 			<div class=" p-4">
 				<button 
-					class="btn  bg-primary-500" 
+					class="btn  bg-secondary-500" 
 					on:click={
 						() => {
 							submitBasket(projet);
@@ -147,7 +150,7 @@
 									on:click={() => {
 										// based on item.id_code_barre remove item from currentBarcodes
 										currentBarcodes = currentBarcodes.filter((barcode) => barcode !== item.id_code_barre);
-									}}>Supprimer</td
+									}}><button class="btn bg-primary-500"><Fa icon={faTrash}/> <p>Supprimer</p></button></td
 									>
 								</tr>
 							{/each}
