@@ -1,10 +1,12 @@
 import { get, writable } from "svelte/store";
 import { env } from '$env/dynamic/public';
+import type { Notif } from './models/notification';
 
 export let itemsStore = writable([]);
 export let itemsLastUpdateStore = writable(0);
 export let auth = writable("");
 export let logged = writable(false);
+export const notification = writable({} as Notif);
 
 
 export const getAuth = () => {

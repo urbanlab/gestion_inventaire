@@ -3,6 +3,8 @@
 	import { SlideToggle, ProgressBar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import type { Item } from '../../models/item';
+  import Notification from './Notification.svelte';
+  import { notification } from '$lib/store';
 	
 	export let items: any;
 	export let currentBarcodes: Array<string> = [];
@@ -42,12 +44,22 @@
 				.then((response) => response.json())
 				.then((data) => {
 					console.log('Success:', data);
-					updating = false;	
+					updating = false;
+					$notification = ({
+						type: "variant-filled-success",
+						body: "Mise à jour effectuée",
+						show: true,
+          		  	});	
 					
 				})
 				.catch((error) => {
 					console.error('Error:', error);
 					updating = true;
+					$notification = ({
+						type: "variant-filled-warning",
+						body: "Mise à jour effectuée",
+						show: true,
+          		  	});	
 				});
 
 		});
@@ -76,6 +88,7 @@
 	
 	<div class="card p-4 {updating ? "opacity-5" : ""}">
 		<h1 class="">Emprunt</h1>
+		<Notification />
 		<div class="card flex  mb-5">
 			<div class="p-4">
 				<h3>Entrée Code barre</h3>
