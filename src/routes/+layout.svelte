@@ -8,6 +8,8 @@
 	// This contains the bulk of Skeletons required styles:
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
+    import { LightSwitch } from '@skeletonlabs/skeleton';
+
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
   	import { getAuth, logged, login, logout } from '$lib/store';
@@ -92,6 +94,9 @@
 	}
 
 </script>
+<div class="hidden">
+	<LightSwitch />
+</div>
 <div class="flex flex-col mt-12">
 	{#if !$logged}
 		<input type="text" placeholder="mot de passe" bind:value={password} />
