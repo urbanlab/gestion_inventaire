@@ -13,13 +13,13 @@
   	import { getAuth, logged, login, logout } from '$lib/store';
 	import { ProgressBar } from '@skeletonlabs/skeleton';
 	import Fa from 'svelte-fa'
-	import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons'
+	import { faCircle } from '@fortawesome/free-solid-svg-icons'
 
 	let items;
 	const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
 	let saveItems = true;
-	const doNotsync = false;
+	const doNotsync = true;
 
 	let syncing = false;
 	let firstUpdate = true;
@@ -92,15 +92,19 @@
 	}
 
 </script>
-<div class="flex flex-col">
+<div class="flex flex-col mt-12">
 	{#if !$logged}
 		<input type="text" placeholder="mot de passe" bind:value={password} />
 		<button on:click={() => login(password)}>login</button>
 	{/if}
 	{#if $logged}
-		<button on:click={() => logout()}>logout</button> 
-		<p>{syncing ? "syncronisation en cours" : "aucune synchronisation"}</p>
-		<span class="badge-icon variant-filled">{syncing}</span>
+		<div class="flex justify-between p-4 fixed top-0 w-full ">
+			<button on:click={() => logout()}>logout</button> 
+			<div class="flex items-center">
+				<p class="mr-2 ">{syncing ? "syncronisation en cours" : "aucune synchronisation"}</p>
+				<div class="{syncing ? "text-orange-500 animate-pulse" : "text-green-500"}"><Fa icon={faCircle}/></div>
+			</div>	
+		</div>
 		{#if firstUpdate}
 			<div class="relative">
 				<h1>Mise en cache des items de la techshop</h1>
