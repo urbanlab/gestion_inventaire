@@ -89,10 +89,10 @@
 		</div>
 	{/if}
 	
-	<div class="card p-4 {updating ? "opacity-5" : ""}">
+	<div class="card p-4  {updating ? "opacity-5" : ""}">
 		<h1 class="">Emprunt</h1>
 		<Notification />
-		<div class="card flex  mb-5">
+		<div class="card flex  mb-5 lg:flex-row max-sm:flex-col">
 			<div class="p-4">
 				<h3>Entrée Code barre</h3>
 				<p><i>Scannez le code bare du bien a l'aide du scanner usb ou avec une webcam</i></p>
