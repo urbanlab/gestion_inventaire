@@ -7,7 +7,7 @@
 
     let html5Qrcode
 
-    let lastCode = ''
+    export let lastBarcode = ''
 
     onMount(init)
 
@@ -34,9 +34,10 @@
     }
 
     function onScanSuccess(decodedText, decodedResult) {
-        alert(`Code matched = ${decodedText}`)
+        //alert(`Code matched = ${decodedText}`)
         console.log(decodedResult)
-        html5QrcodeScanner.clear();
+        lastBarcode = decodedText
+        //html5QrcodeScanner.clear();
     }
 
     function onScanFailure(error) {
@@ -79,6 +80,6 @@
         <button on:click={start}>start</button>
     {/if}
     <button on:click={toggleCamera}>Toggle Camera</button>
-    <p>Last code: {lastCode}</p>
+    <p>Last code: {lastBarcode}</p>
 
 </main>

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { InputChip } from '@skeletonlabs/skeleton';
-	import { SlideToggle, ProgressBar } from '@skeletonlabs/skeleton';
+	import { InputChip,  SlideToggle, ProgressBar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import type { Item } from '../../models/item';
 	import Notification from './Notification.svelte';
 	import { notification } from '$lib/store';
 	import Fa from 'svelte-fa'
 	import { faTrash } from '@fortawesome/free-solid-svg-icons'
+  	import Barcode from './Barcode.svelte';
 
 		
 	export let items: any;
@@ -14,7 +14,8 @@
 	let itemsBasket: any[] = [];
 	let io = true; // io = input / output
 	let projet = '';
-
+	let lastBarcode = '';
+	let showBarcode = false;
 	let updating = false;
 	
 	onMount(async () => {
@@ -27,6 +28,14 @@
 	// Filter itemsBasket from currentBarcodes string array
 	$: itemsBasket = items.data.filter((item) => currentBarcodes.includes(item.id_code_barre));
 
+
+	// if lastBarcode  is not empty and currentBarcodes does not include lastBarcode
+	$: if (lastBarcode && !currentBarcodes.includes(lastBarcode)) {
+		// add lastBarcode to currentBarcodes
+		currentBarcodes = [...currentBarcodes, lastBarcode];
+		// reset lastBarcode
+		lastBarcode = '';
+	}
 
 	function submitBasket(projet: string) {
 		// for each item in itemsBasket change the projet in the localStorage
@@ -88,7 +97,12 @@
 			<ProgressBar label="Progress Bar" value={undefined}/>
 		</div>
 	{/if}
-	
+	{#if showBarcode}
+		<div class="absolute z-10 w-full h-full bg-black">
+			<button class="btn bg-secondary-500" on:click={() => {showBarcode = false }}>FERMER</button>
+			<Barcode bind:lastBarcode={lastBarcode} />
+		</div>
+	{/if}
 	<div class="card p-4  {updating ? "opacity-5" : ""}">
 		<h1 class="">Emprunt</h1>
 		<Notification />
@@ -100,6 +114,9 @@
 					name="chips" 
 					bind:value={currentBarcodes}
 				/>
+			</div>
+			<div class="p-4">
+				<button class="btn bg-secondary-500" on:click={() => {showBarcode = true }}>SCANNER</button>
 			</div>
 			<div class=" p-4">
 				<h3>Entrée / Sortie</h3>
