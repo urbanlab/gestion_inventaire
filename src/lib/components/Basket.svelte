@@ -124,7 +124,7 @@
 			</div>
 			<div class=" p-4">
 				<h3>Projet</h3>
-				<p><i>La personne ou structure</i></p>
+				<p><i>Qui emprunte quoi et pourquoi ?</i></p>
 				<input class="textarea" type="text" bind:value={projet} placeholder="projet" />
 			</div>
 			<div class=" p-4">

@@ -12,16 +12,17 @@
 
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
-  	import { getAuth, logged, login, logout } from '$lib/store';
+  	import { getAuth, logged, login, logout, notification } from '$lib/store';
 	import { ProgressBar } from '@skeletonlabs/skeleton';
 	import Fa from 'svelte-fa'
 	import { faCircle } from '@fortawesome/free-solid-svg-icons'
+  import Notification from '$lib/components/Notification.svelte';
 
 	let items;
 	const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
 	let saveItems = true;
-	const doNotsync = true;
+	const doNotsync = false;
 
 	let syncing = false;
 	let firstUpdate = true;
@@ -50,8 +51,20 @@
 		syncing = true;
 		const response = await fetch('/api/items');
 		const data = await response.json();
-		syncing = false;
-		return data;
+		console.log('data', data);
+		if (data.error) {
+			console.log('error', data.error);
+			$notification = ({
+				type: 'variant-filled-warning',
+				body: data.error,
+				show: true,
+			});
+		}
+		else {
+			syncing = false;
+			return data;
+		}
+
 	}
 
 	function setLocalStorage() {
@@ -118,6 +131,7 @@
 			</div>
 		{/if}
 		<div class="{firstUpdate ? "opacity-5" : ""}">
+			<Notification />
 			<slot/>
 			<Nav/>
 		</div>

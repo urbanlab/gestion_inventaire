@@ -12,9 +12,9 @@
 
 <section class="mt-4 mb-4">
     {#if $notification.show}
-        <div class="alert {$notification.type} shadow-lg">
+        <div class="alert {$notification.type} shadow-l">
             <div>
-                <span>{$notification.body}</span>
+                <span class="text-white">{$notification.body}</span>
             </div>
         </div>
     {/if}
