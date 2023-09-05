@@ -40,7 +40,7 @@
     }
 
     function onScanFailure(error) {
-        console.warn(`Code scan error = ${error}`)
+        //console.warn(`Code scan error = ${error}`)
     }
 
     function toggleCamera() {

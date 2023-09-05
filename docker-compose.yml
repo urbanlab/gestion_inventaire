@@ -4,6 +4,7 @@ services:
     build: 
       context: .
       target: "dev"
+    image: "erasme/gestion_inventaire:dev"
     volumes:
       - ./src/:/app/src
     ports:
