@@ -9,7 +9,7 @@ export const GET = async () => {
         const filteredDatabase = database.map((item) => {
             return {
                 id: item.id,
-                id_code_barre: item.properties.id_code_barre?.rich_text[0]?.text.content,
+                id_code_barre: item.properties.id_code_barres?.rich_text[0]?.text.content,
                 utilisation: item.properties.H_utilisation?.select?.name,
                 descriptif: item.properties["descriptif"]?.title[0]?.text.content,
                 projet: item.properties.I_projet?.rich_text[0]?.text.content,
