@@ -89,18 +89,17 @@
 
 	}
 </script>
-
-<section class="w-screen">
+{#if showBarcode}
+	<div class="fixed top-0 z-10 w-full h-full bg-black">
+		<button class="btn bg-secondary-500" on:click={() => {showBarcode = false }}>FERMER</button>
+		<Barcode bind:lastBarcode={lastBarcode} />
+	</div>
+{/if}
+<section class="w-screen h-screen">
 	{#if updating}
 		<div class="relative">
 			<h1>Mise à jour des elements en base</h1>
 			<ProgressBar label="Progress Bar" value={undefined}/>
-		</div>
-	{/if}
-	{#if showBarcode}
-		<div class="absolute z-10 w-full h-full bg-black">
-			<button class="btn bg-secondary-500" on:click={() => {showBarcode = false }}>FERMER</button>
-			<Barcode bind:lastBarcode={lastBarcode} />
 		</div>
 	{/if}
 	<div class="card p-4  {updating ? "opacity-5" : ""}">

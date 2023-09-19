@@ -5,7 +5,6 @@
     <ul class="flex flex-row justify-around">
         <li><a href="/search">Recherche</a></li>
         <li><a href="/borrow">Emprunt</a></li>
-        <li><a href="/barcode">Scan</a></li>
         <LightSwitch />
     </ul> 
 </nav>
