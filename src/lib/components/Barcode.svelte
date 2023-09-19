@@ -9,7 +9,6 @@
 
     export let lastBarcode = ''
 
-    onMount(init)
 
     function init() {
         html5Qrcode = new Html5Qrcode('reader')
@@ -55,6 +54,11 @@
             start()
         }
     }
+
+    onMount( () => {
+        init()
+        start()
+    }) 
 </script>
 
 <style>
