@@ -119,7 +119,7 @@
 		<div class="flex justify-between p-4 fixed top-0 w-full ">
 			<button on:click={() => logout()}>logout</button> 
 			<div class="flex items-center">
-				<p class="mr-2 ">{syncing ? "syncronisation en cours" : "aucune synchronisation"}</p>
+				<p class="mr-2 ">{syncing ? "synchronisation en cours" : "aucune synchronisation"}</p>
 				<div class="{syncing ? "text-orange-500 animate-pulse" : "text-green-500"}"><Fa icon={faCircle}/></div>
 			</div>	
 		</div>
