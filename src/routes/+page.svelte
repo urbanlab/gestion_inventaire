@@ -6,7 +6,7 @@
 
 <section>
 <h2>Outil de gestion d'inventaire</h2>
-<div class="flex flex-wrap space-x-4 justify-center pt-16">
+<div class="flex flex-wrap md:space-x-4 md:space-y-0 space-y-4 justify-center pt-16">
     <a href="/search"  class="decoration-transparent ">
         <div class="card  w-60 h-60 card-hover cursor-pointer bg-primary-500 text-white">
             <header class="card-header">Recherche</header>
