@@ -14,7 +14,7 @@ COPY vite.config.ts /app/vite.config.ts
 RUN bun install
 
 
-ENTRYPOINT [ "bun", "--bun", "run", "dev"]
+ENTRYPOINT [ "bun", "run", "dev"]
 
 FROM oven/bun as build
 
