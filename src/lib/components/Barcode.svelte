@@ -71,19 +71,14 @@
     }
     reader {
         width: 100%;
-        min-height: 500px;
+        min-height: 250px;
         background-color: black;
     }
 </style>
 
-<main>
+<main class="text-white">
     <reader id="reader"/>
-    {#if scanning}
-        <button on:click={stop}>stop</button>
-    {:else}
-        <button on:click={start}>start</button>
-    {/if}
     <button on:click={toggleCamera}>Toggle Camera</button>
-    <p>Last code: {lastBarcode}</p>
+    <p class="text-white">Last code: {lastBarcode}</p>
 
 </main>
