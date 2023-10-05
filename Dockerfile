@@ -1,4 +1,4 @@
-FROM oven/bun as dev
+FROM node:lts as dev
 
 WORKDIR /app
 
@@ -11,21 +11,21 @@ COPY tailwind.config.cjs /app/tailwind.config.cjs
 COPY tsconfig.json /app/tsconfig.json
 COPY vite.config.ts /app/vite.config.ts
 
-RUN bun install
+RUN npm install
 
 
 ENTRYPOINT [ "bun", "run", "dev"]
 
-FROM oven/bun as build
+FROM node:lts as build 
 
 WORKDIR /app
 
 # copy node modules from dev stage
 COPY --from=dev /app/ /app/
 
-RUN bun run build
+RUN npm run build
 
-FROM oven/bun as prod
+FROM node:lts as prod
 
 WORKDIR /app
 
