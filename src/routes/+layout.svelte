@@ -12,7 +12,7 @@
 
   import "../app.css";
   import Nav from "$lib/components/Nav.svelte";
-  import { getAuth, logged, login, logout, notification } from "$lib/store";
+  import { getAuth, logged, login, logout, notification, getCurrentBarcodes } from "$lib/store";
   import { ProgressBar } from "@skeletonlabs/skeleton";
   import Fa from "svelte-fa";
   import { faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +22,7 @@
   const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
   let saveItems = true;
-  const doNotsync = true;
+  const doNotsync = false;
 
   let syncing = false;
   let firstUpdate = true;
@@ -45,6 +45,8 @@
     } else {
       setLocalStorage();
     }
+    getCurrentBarcodes();
+
   });
 
   async function fetchItems() {

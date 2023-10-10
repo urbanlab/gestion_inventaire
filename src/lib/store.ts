@@ -7,6 +7,21 @@ export let itemsLastUpdateStore = writable(0);
 export let auth = writable("");
 export let logged = writable(false);
 export const notification = writable({} as Notif);
+export let currentBarcodes = writable([] as Array<string>);
+
+export const getCurrentBarcodes = () => {
+    //get current barcodes from local storage
+    const barcodes = localStorage.getItem("barcodes");
+    currentBarcodes.set(barcodes ? JSON.parse(barcodes) : []);
+    
+}
+
+export const setCurrentBarcodes = (barcodes: Array<string> | null) => {
+    //set current barcodes to local storage
+    localStorage.setItem("barcodes", JSON.stringify(barcodes));
+    currentBarcodes.set(barcodes || []);
+}
+
 
 
 export const getAuth = () => {
@@ -14,9 +29,7 @@ export const getAuth = () => {
     if (get(auth) === env.PUBLIC_PASSWORD) {
         logged.set(true);
     }
-
 }
-
 
 export const login = (password: string) => {
     if (password === env.PUBLIC_PASSWORD) {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { InputChip } from "@skeletonlabs/skeleton";
+  import {currentBarcodes, setCurrentBarcodes } from "../store";
 
   export let items: any;
 
@@ -7,6 +8,9 @@
     items.data = JSON.parse(window.localStorage.getItem("items")).data;
     const input = e.target.value;
     console.log("searchDesc");
+
+    $: console.log("currentTable barcode", $currentBarcodes);
+
 
     // filter items.data.description with input
     items.data = items.data.filter((item) =>
@@ -16,6 +20,22 @@
         .toLowerCase()
         .includes(input.toLowerCase())
     );
+  }
+
+  function addCurrentBarcode(id_code_barre: string) {
+    // add id_code_barre to currentBarcodes
+    $currentBarcodes = [...$currentBarcodes, id_code_barre];
+    // set currentBarcodes in localStorage
+    setCurrentBarcodes($currentBarcodes);
+  }
+
+  function removeCurrentBarcode(id_code_barre: string) {
+    // remove id_code_barre from currentBarcodes
+    $currentBarcodes = $currentBarcodes.filter(
+      (barcode) => barcode !== id_code_barre
+    );
+    // set currentBarcodes in localStorage
+    setCurrentBarcodes($currentBarcodes);
   }
 </script>
 
@@ -34,6 +54,7 @@
       <table class="table table-hover table-compact mt-36">
         <thead class="fixed h-20 w-full">
           <tr>
+            <th>Panier</th>
             <th>desc</th>
             <th>projet</th>
             <th>utilisation</th>
@@ -45,6 +66,27 @@
           <tr class="h-24" />
           {#each items.data.slice(0, 100) as item}
             <tr>
+              <td>
+                {#if $currentBarcodes.includes(item.id_code_barre)}
+                  <button
+                    class="btn bg-primary-500"
+                    on:click={() => {
+                      removeCurrentBarcode(item.id_code_barre);
+                    }}
+                  >
+                  <p>Supprimer</p>
+                  </button>
+                {:else}
+                  <button
+                    class="btn bg-primary-500"
+                    on:click={() => {
+                      addCurrentBarcode(item.id_code_barre);
+                    }}
+                  >
+                  <p>Ajouter</p>
+                  </button>
+                {/if}
+              </td>
               <td>{item.descriptif}</td>
               <td>{item.projet}</td>
               <td>{item.utilisation}</td>

@@ -3,14 +3,13 @@
 	import { onMount } from 'svelte';
 	import type { Item } from '../../models/item';
 	import Notification from './Notification.svelte';
-	import { notification } from '$lib/store';
+	import { notification, getCurrentBarcodes, setCurrentBarcodes, currentBarcodes  } from '$lib/store';
 	import Fa from 'svelte-fa'
 	import { faTrash } from '@fortawesome/free-solid-svg-icons'
   	import Barcode from './Barcode.svelte';
 
 		
 	export let items: any;
-	export let currentBarcodes: Array<string> = [];
 	let itemsBasket: any[] = [];
 	let io = true; // io = input / output
 	let projet = '';
@@ -23,16 +22,17 @@
 		// get items from localStorage
 		items = JSON.parse(window.localStorage.getItem('items'));
 		console.log('items', items);
+		// get currentBarcodes from localStorage
 	});
 
 	// Filter itemsBasket from currentBarcodes string array
-	$: itemsBasket = items.data.filter((item) => currentBarcodes.includes(item.id_code_barre));
+	$: itemsBasket = items?.data?.filter((item) => $currentBarcodes?.includes(item.id_code_barre));
 
 
 	// if lastBarcode  is not empty and currentBarcodes does not include lastBarcode
 	$: if (lastBarcode && !currentBarcodes.includes(lastBarcode)) {
 		// add lastBarcode to currentBarcodes
-		currentBarcodes = [...currentBarcodes, lastBarcode];
+		$currentBarcodes = [...$currentBarcodes, lastBarcode];
 		// reset lastBarcode
 		lastBarcode = '';
 	}
@@ -88,6 +88,8 @@
 		items = JSON.parse(window.localStorage.getItem('items'));
 
 	}
+
+	$: console.log('currentBarcodes', $currentBarcodes);
 </script>
 {#if showBarcode}
 	<div class="fixed top-0 z-10 w-full h-full bg-black">
@@ -111,7 +113,7 @@
 				<p><i>Scannez le code bare du bien a l'aide du scanner usb ou avec une webcam</i></p>
 				<InputChip 
 					name="chips" 
-					bind:value={currentBarcodes}
+					bind:value={$currentBarcodes}
 				/>
 			</div>
 			<div class="p-4">
@@ -165,7 +167,7 @@
 									<td
 									on:click={() => {
 										// based on item.id_code_barre remove item from currentBarcodes
-										currentBarcodes = currentBarcodes.filter((barcode) => barcode !== item.id_code_barre);
+										$currentBarcodes = $currentBarcodes.filter((barcode) => barcode !== item.id_code_barre);
 									}}><button class="btn bg-primary-500"><Fa icon={faTrash}/> <p>Supprimer</p></button></td
 									>
 								</tr>
