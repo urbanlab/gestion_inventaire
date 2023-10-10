@@ -61,6 +61,7 @@
         body: data.error,
         show: true,
       };
+      return items;
     } else {
       syncing = false;
       return data;
