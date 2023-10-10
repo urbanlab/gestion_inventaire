@@ -14,7 +14,7 @@ COPY vite.config.ts /app/vite.config.ts
 RUN npm install
 
 
-ENTRYPOINT [ "bun", "run", "dev"]
+ENTRYPOINT [ "npm", "run", "dev"]
 
 FROM node:lts as build 
 
