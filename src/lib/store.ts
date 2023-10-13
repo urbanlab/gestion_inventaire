@@ -13,15 +13,12 @@ export const getCurrentBarcodes = () => {
     //get current barcodes from local storage
     const barcodes = localStorage.getItem("barcodes");
     currentBarcodes.set(barcodes ? JSON.parse(barcodes) : []);
+    // subscibe to current barcodes
+    currentBarcodes.subscribe((value) => {
+        localStorage.setItem("barcodes", JSON.stringify(value));
+    })
     
 }
-
-export const setCurrentBarcodes = (barcodes: Array<string> | null) => {
-    //set current barcodes to local storage
-    localStorage.setItem("barcodes", JSON.stringify(barcodes));
-    currentBarcodes.set(barcodes || []);
-}
-
 
 
 export const getAuth = () => {

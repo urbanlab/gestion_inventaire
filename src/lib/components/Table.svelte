@@ -1,6 +1,8 @@
 <script lang="ts">
   import { InputChip } from "@skeletonlabs/skeleton";
-  import {currentBarcodes, setCurrentBarcodes } from "../store";
+  import { currentBarcodes } from "../store";
+  import Fa from "svelte-fa";
+  import { faBasketShopping, faCheck } from "@fortawesome/free-solid-svg-icons";
 
   export let items: any;
 
@@ -10,7 +12,6 @@
     console.log("searchDesc");
 
     $: console.log("currentTable barcode", $currentBarcodes);
-
 
     // filter items.data.description with input
     items.data = items.data.filter((item) =>
@@ -26,7 +27,6 @@
     // add id_code_barre to currentBarcodes
     $currentBarcodes = [...$currentBarcodes, id_code_barre];
     // set currentBarcodes in localStorage
-    setCurrentBarcodes($currentBarcodes);
   }
 
   function removeCurrentBarcode(id_code_barre: string) {
@@ -34,8 +34,6 @@
     $currentBarcodes = $currentBarcodes.filter(
       (barcode) => barcode !== id_code_barre
     );
-    // set currentBarcodes in localStorage
-    setCurrentBarcodes($currentBarcodes);
   }
 </script>
 
@@ -69,21 +67,21 @@
               <td>
                 {#if $currentBarcodes.includes(item.id_code_barre)}
                   <button
-                    class="btn bg-primary-500"
+                    class="btn bg-success-500 text-black"
                     on:click={() => {
                       removeCurrentBarcode(item.id_code_barre);
                     }}
                   >
-                  <p>Supprimer</p>
+                    <Fa icon={faCheck} />
                   </button>
-                {:else}
+                {:else if isNaN(item.id_code_barre)}{:else}
                   <button
-                    class="btn bg-primary-500"
+                    class="btn bg-secondary-500"
                     on:click={() => {
                       addCurrentBarcode(item.id_code_barre);
                     }}
                   >
-                  <p>Ajouter</p>
+                    <Fa icon={faBasketShopping} />
                   </button>
                 {/if}
               </td>
