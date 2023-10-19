@@ -2,17 +2,20 @@
   import { json } from "@sveltejs/kit";
   import { onMount } from "svelte";
   import { env } from "$env/dynamic/public";
-  // Your selected Skeleton theme:
-  import "@skeletonlabs/skeleton/themes/theme-skeleton.css";
 
-  // This contains the bulk of Skeletons required styles:
-  import "@skeletonlabs/skeleton/styles/all.css";
-  import "@skeletonlabs/skeleton/themes/theme-crimson.css";
   import { LightSwitch } from "@skeletonlabs/skeleton";
+  import { initializeStores } from "@skeletonlabs/skeleton";
 
   import "../app.css";
   import Nav from "$lib/components/Nav.svelte";
-  import { getAuth, logged, login, logout, notification, getCurrentBarcodes } from "$lib/store";
+  import {
+    getAuth,
+    logged,
+    login,
+    logout,
+    notification,
+    getCurrentBarcodes,
+  } from "$lib/store";
   import { ProgressBar } from "@skeletonlabs/skeleton";
   import Fa from "svelte-fa";
   import { faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -46,7 +49,7 @@
       setLocalStorage();
     }
     getCurrentBarcodes();
-
+    initializeStores();
   });
 
   async function fetchItems() {
