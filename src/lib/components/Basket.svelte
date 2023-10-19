@@ -2,7 +2,6 @@
   import { InputChip, SlideToggle, ProgressBar } from "@skeletonlabs/skeleton";
   import { onMount } from "svelte";
   import type { Item } from "../../models/item";
-  import Notification from "./Notification.svelte";
   import { notification, currentBarcodes } from "$lib/store";
   import Fa from "svelte-fa";
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -63,6 +62,9 @@
             body: "Mise à jour effectuée",
             show: true,
           };
+
+          // scroll to  top
+          window.scrollTo({ top: 0, behavior: "smooth" });
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -114,7 +116,6 @@
   {/if}
   <div class="card p-4 {updating ? 'opacity-5' : ''}">
     <h1 class="">Emprunt</h1>
-    <Notification />
     <div class="card flex mb-5 lg:flex-row max-sm:flex-col">
       <div class="p-4">
         <h3>Entrée Code barre</h3>
