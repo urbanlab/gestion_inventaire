@@ -4,7 +4,6 @@
   import { env } from "$env/dynamic/public";
 
   import { LightSwitch } from "@skeletonlabs/skeleton";
-  import { initializeStores } from "@skeletonlabs/skeleton";
 
   import "../app.css";
   import Nav from "$lib/components/Nav.svelte";
@@ -13,26 +12,29 @@
     logged,
     login,
     logout,
+    syncing,
     notification,
+    currentItems,
+    getItems,
     getCurrentBarcodes,
+    getCurrentItems,
   } from "$lib/store";
   import { ProgressBar } from "@skeletonlabs/skeleton";
   import Fa from "svelte-fa";
   import { faCircle } from "@fortawesome/free-solid-svg-icons";
   import Notification from "$lib/components/Notification.svelte";
+  import { get } from "svelte/store";
 
-  let items;
   const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
   let saveItems = true;
-  const doNotsync = false;
+  let doNotsync = false;
 
-  let syncing = false;
   let firstUpdate = true;
 
   $: {
     // check if loclStorage is empty
-    if (items) {
+    if ($currentItems.lastUpdate) {
       firstUpdate = false;
     }
   }
@@ -42,80 +44,32 @@
   onMount(() => {
     getAuth();
     document.title = "Emprunt";
-    if (doNotsync) {
-      console.log("doNotsync");
-      items = JSON.parse(window.localStorage.getItem("items"));
-    } else {
-      setLocalStorage();
+    if (!doNotsync) {
+      // Set an interval for checking updates
+      const intervalId = setInterval(refreshItemsFromNotion, 5000);
     }
     getCurrentBarcodes();
-    initializeStores();
+    getCurrentItems();
   });
 
-  async function fetchItems() {
-    syncing = true;
-    const response = await fetch("/api/items");
-    const data = await response.json();
-    console.log("data", data);
-    if (data.error) {
-      console.log("error", data.error);
-      $notification = {
-        type: "variant-filled-warning",
-        body: data.error,
-        show: true,
-      };
-      return items;
-    } else {
-      syncing = false;
-      return data;
-    }
-  }
-
-  function setLocalStorage() {
-    const itemsLocalStorage = window.localStorage.getItem("items");
-    setTimeout(async () => {
-      if (itemsLocalStorage && saveItems == true) {
-        // check if items.lastUpdate is older than 5 minutes
-        items = JSON.parse(itemsLocalStorage);
-        const now = new Date();
-        const itemslastUpdate = new Date(items.lastUpdate);
-        const diff = now.getTime() - itemslastUpdate.getTime();
-        const diffMinutes = Math.round(((diff % 86400000) % 3600000) / 60000);
-        console.log(diffMinutes);
-        saveItems = false;
-        if (diffMinutes > itemRefreshTime) {
-          console.log(
-            "items in localStorage but older than ",
-            itemRefreshTime,
-            " minutes"
-          );
-          // fetch api/items and save it in localStorage with items.data and itemslastUpdate
-          // fetch('http://localhost:3000/api/items')
-
-          const data = await fetchItems();
-          items.data = data;
-          items.lastUpdate = new Date().toString();
-          window.localStorage.setItem("items", JSON.stringify(items));
-        } else {
-          console.log(
-            "items in localStorage and younger than ",
-            itemRefreshTime,
-            " minutes"
-          );
-        }
-      } else {
-        console.log("no items in localStorage");
-        // fetch api/items and save it in localStorage with items.data and itemslastUpdate
-
-        const data = await fetchItems();
-        items = {
-          data: data,
-          lastUpdate: new Date().toString(),
-        };
-        window.localStorage.setItem("items", JSON.stringify(items));
+  function refreshItemsFromNotion() {
+    if ($currentItems.lastUpdate) {
+      // check if last update is older than itemRefreshTime
+      if (
+        new Date($currentItems.lastUpdate).getTime() <
+        new Date().getTime() - itemRefreshTime * 60 * 1000
+      ) {
+        $currentItems.lastUpdate = new Date().toISOString();
+        doNotsync = true;
+        let items = getItems();
+        items.then((res) => {
+          if (res) {
+            $currentItems.data = res;
+          }
+        });
+        doNotsync = false;
       }
-      setLocalStorage();
-    }, 5000);
+    }
   }
 </script>
 
@@ -132,10 +86,10 @@
       <button on:click={() => logout()}>logout</button>
       <div class="flex items-center">
         <p class="mr-2">
-          {syncing ? "synchronisation en cours" : "aucune synchronisation"}
+          {$syncing ? "synchronisation en cours" : "aucune synchronisation"}
         </p>
         <div
-          class={syncing ? "text-orange-500 animate-pulse" : "text-green-500"}
+          class={$syncing ? "text-orange-500 animate-pulse" : "text-green-500"}
         >
           <Fa icon={faCircle} />
         </div>

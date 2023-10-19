@@ -1,6 +1,5 @@
 import { json } from '@sveltejs/kit';
 import {getPage, updatePage} from '$lib/notion';
-import type { PageProperties } from '../../../../models/notion';
 
 export const GET = (async ({ url }) => {
     // from path name, get the id of the page

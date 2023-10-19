@@ -1,13 +1,13 @@
 <script lang="ts">
   import { InputChip, SlideToggle, ProgressBar } from "@skeletonlabs/skeleton";
   import { onMount } from "svelte";
-  import type { Item } from "../../models/item";
+  import type { Item, Items } from "$lib/models/index";
   import { notification, currentBarcodes } from "$lib/store";
   import Fa from "svelte-fa";
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
   import Barcode from "./Barcode.svelte";
 
-  export let items: any;
+  export let items: Items;
   let itemsBasket: any[] = [];
   let io = true; // io = input / output
   let projet = "";
@@ -18,13 +18,12 @@
   onMount(async () => {
     document.title = "Emprunt";
     // get items from localStorage
-    items = JSON.parse(window.localStorage.getItem("items"));
-    console.log("items", items);
+    items = JSON.parse(window.localStorage.getItem("items") || "[]").data;
     // get currentBarcodes from localStorage
   });
 
   // Filter itemsBasket from currentBarcodes string array
-  $: itemsBasket = items?.data?.filter((item) =>
+  $: itemsBasket = items?.filter((item: Item) =>
     $currentBarcodes?.includes(item.id_code_barre)
   );
 
@@ -40,7 +39,6 @@
     // for each item in itemsBasket change the projet in the localStorage
     itemsBasket.forEach((item: Item) => {
       updating = true;
-      console.log("submitBasket", updating);
       item.projet = projet;
       item.utilisation = io ? "Dispo" : "Prêt partenaire";
 
@@ -54,7 +52,6 @@
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
           updating = false;
 
           $notification = {
@@ -86,7 +83,7 @@
     itemsBasket = [];
 
     // Reset inputeload items from localStorage
-    items = JSON.parse(window.localStorage.getItem("items"));
+    items = JSON.parse(window.localStorage.getItem("items") || "[]").data;
   }
 
   $: console.log("currentBarcodes", $currentBarcodes);

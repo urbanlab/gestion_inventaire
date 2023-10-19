@@ -3,18 +3,16 @@
   import { currentBarcodes } from "../store";
   import Fa from "svelte-fa";
   import { faBasketShopping, faCheck } from "@fortawesome/free-solid-svg-icons";
+  import type { Item } from "$lib/models/index";
 
-  export let items: any;
+  export let items: Array<Item>;
 
   function searchDesc(e) {
-    items.data = JSON.parse(window.localStorage.getItem("items")).data;
+    items = JSON.parse(window.localStorage.getItem("items") || "[]").data;
     const input = e.target.value;
-    console.log("searchDesc");
-
-    $: console.log("currentTable barcode", $currentBarcodes);
 
     // filter items.data.description with input
-    items.data = items.data.filter((item) =>
+    items = items.filter((item) =>
       item?.descriptif
         ?.normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -38,7 +36,7 @@
 </script>
 
 <section class="overflow-y-scroll">
-  {#if items?.data}
+  {#if items}
     <div class="card rounded-t-none rounded-b-none fixed w-full p-5">
       <h1 class="mb-7">Recherche</h1>
       <InputChip
@@ -62,7 +60,7 @@
         </thead>
         <tbody>
           <tr class="h-24" />
-          {#each items.data.slice(0, 100) as item}
+          {#each items.slice(0, 100) as item}
             <tr>
               <td>
                 {#if $currentBarcodes.includes(item.id_code_barre)}

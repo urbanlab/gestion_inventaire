@@ -1,21 +1,19 @@
 <script lang="ts">
-	import Basket from '$lib/components/Basket.svelte';
-    import { onMount } from 'svelte';
+  import Basket from "$lib/components/Basket.svelte";
+  import { onMount } from "svelte";
+  import { currentItems } from "$lib/store";
 
-    let currentBarcode = '';
-	let items;
+  let currentBarcode = "";
 
-	onMount( async () => {
-		document.title = 'Emprunt';
-		// get items from localStorage
-		items = JSON.parse(window.localStorage.getItem('items'));
-	});
-	
+  onMount(async () => {
+    document.title = "Emprunt";
+  });
 </script>
+
 <section>
-    {#if items}
-		<Basket items={items} currentBarcode={currentBarcode} />
-	{:else}
-		Loading ...
-	{/if}
+  {#if $currentItems}
+    <Basket items={$currentItems.data} {currentBarcode} />
+  {:else}
+    Loading ...
+  {/if}
 </section>

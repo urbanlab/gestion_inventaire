@@ -7,3 +7,7 @@ export interface Item {
     quantite_totale: number;
     infos_utiles: string;
 }
+export interface Items {
+    lastUpdate: string;
+    data: Array<Item>;
+}

@@ -1,21 +1,19 @@
 <script lang="ts">
-	import Table from '$lib/components/Table.svelte';
-    import { onMount } from 'svelte';
+  import Table from "$lib/components/Table.svelte";
+  import { onMount } from "svelte";
+  import { currentItems } from "$lib/store";
 
-    let currentBarcode = '';
-	let items;
+  let currentBarcode = "";
 
-	onMount( async () => {
-		document.title = 'Emprunt';
-		// get items from localStorage
-		items = JSON.parse(window.localStorage.getItem('items'));
-	});
-	
+  onMount(async () => {
+    document.title = "Emprunt";
+  });
 </script>
+
 <section>
-    {#if items}
-        <Table items={items} />
-    {:else}
-        Loading ...
-    {/if}
+  {#if $currentItems}
+    <Table items={$currentItems.data} />
+  {:else}
+    Loading ...
+  {/if}
 </section>

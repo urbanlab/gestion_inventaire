@@ -1,6 +1,6 @@
 import { env } from "$env/dynamic/private"
 import { Client } from "@notionhq/client"
-import type { PageProperties } from "../models/notion"
+import type { PageProperties, Page } from "../models/index"
 
 // Initializing a client
 const notion = new Client({
@@ -15,8 +15,8 @@ export async function getDatabaseItems() {
     // get every page in the database using the start_cursor until there are no more pages
     // filter to only get descriptif I_projet
     
-    let pages = []
-    let start_cursor = undefined
+    let pages: any[] = []
+    let start_cursor: string | undefined = undefined
     while (true) {
         const response = await notion.databases.query({
           database_id: databaseId,
@@ -26,7 +26,7 @@ export async function getDatabaseItems() {
         if (!response.has_more) {
           break
         }
-        start_cursor = response.next_cursor
+        start_cursor = response.next_cursor || undefined
     }
     // count the number of pages in the database
     const count = pages.length
