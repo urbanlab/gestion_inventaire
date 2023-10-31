@@ -118,7 +118,7 @@
         <h3>Entrée Code barre</h3>
         <p>
           <i
-            >Scannez le code bare du bien a l'aide du scanner usb ou avec une
+            >Scannez le code barre du bien a l'aide du scanner usb ou avec une
             webcam</i
           >
         </p>
@@ -140,7 +140,7 @@
       </div>
       <div class=" p-4">
         <h3>Projet</h3>
-        <p><i>Qui emprunte quoi et pourquoi ?</i></p>
+        <p><i>Personne et/ou projet</i></p>
         <input
           class="textarea"
           type="text"
