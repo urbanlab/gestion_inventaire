@@ -6,7 +6,7 @@
 
     console.log($page.route.id);
 </script>
-<nav class="fixed w-full bottom-0 bg-surface-700 text-white">
+<nav class="fixed w-full bottom-0 bg-surface-200-700-token text-white">
     <ul class="flex flex-row justify-around items-center h-12 ">
         <li class="{$page.route.id == '/search' ? 'bg-secondary-500' : '' } p-2 rounded-full">
             <a href="/search">

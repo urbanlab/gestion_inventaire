@@ -82,7 +82,7 @@
     <button on:click={() => login(password)}>login</button>
   {/if}
   {#if $logged}
-    <div class="flex justify-between p-4 fixed top-0 w-full bg-surface-900">
+    <div class="flex justify-between p-4 fixed top-0 w-full bg-surface-200-700-token">
       <button on:click={() => logout()}>logout</button>
       <div class="flex items-center">
         <p class="mr-2">
