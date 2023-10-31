@@ -104,7 +104,9 @@
     {/if}
     <div class={firstUpdate ? "opacity-5" : ""}>
       <Notification />
-      <slot />
+      <div class="mb-12">
+        <slot />
+      </div>
       <Nav />
     </div>
   {/if}
