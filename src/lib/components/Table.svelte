@@ -48,7 +48,7 @@
     </div>
     <div class="table-container w-screen">
       <table class="table table-hover table-compact mt-36">
-        <thead class="fixed h-20 w-full">
+        <thead class="h-20 w-full">
           <tr>
             <th>Panier</th>
             <th>desc</th>
@@ -59,18 +59,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="h-24" />
+          <tr class="h-24 " />
           {#each items.slice(0, 100) as item}
             <tr>
               <td>
                 {#if $currentBarcodes.includes(item.id_code_barre)}
                   <button
-                    class="btn bg-success-500 text-black"
+                    class="btn bg-error-500 text-black"
                     on:click={() => {
                       removeCurrentBarcode(item.id_code_barre);
                     }}
                   >
-                    <Fa icon={faCheck} />
+                    <p>Supprimer</p>
                   </button>
                 {:else if isNaN(item.id_code_barre)}{:else}
                   <button
@@ -79,7 +79,7 @@
                       addCurrentBarcode(item.id_code_barre);
                     }}
                   >
-                    <Fa icon={faBasketShopping} />
+                    <p>Ajouter</p>
                   </button>
                 {/if}
               </td>
