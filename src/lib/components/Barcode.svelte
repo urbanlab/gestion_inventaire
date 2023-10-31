@@ -57,7 +57,7 @@
   });
 </script>
 
-<main class="text-white relative bottom-0 ">
+<main class="text-white">
   <button on:click={toggleCamera}>Toggle Camera</button>
   <p class="text-white">Last code: {lastBarcode}</p>
   <reader id="reader" />
