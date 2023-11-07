@@ -3,8 +3,7 @@
   import { onMount } from "svelte";
   import { env } from "$env/dynamic/public";
 
-  import { LightSwitch } from "@skeletonlabs/skeleton";
-
+  import { LightSwitch, Modal } from "@skeletonlabs/skeleton";
   import "../app.css";
   import Nav from "$lib/components/Nav.svelte";
   import {
@@ -23,7 +22,8 @@
   import Fa from "svelte-fa";
   import { faCircle } from "@fortawesome/free-solid-svg-icons";
   import Notification from "$lib/components/Notification.svelte";
-  import { get } from "svelte/store";
+  import Feedback from "$lib/components/Feedback.svelte";  
+
 
   const itemRefreshTime = env.PUBLIC_REFRESH_INTERVAL; // in minutes
 
@@ -82,6 +82,7 @@
     <button on:click={() => login(password)}>login</button>
   {/if}
   {#if $logged}
+  <Feedback/>
     <div class="flex justify-between p-4 fixed top-0 w-full bg-surface-200-700-token">
       <button on:click={() => logout()}>logout</button>
       <div class="flex items-center">
