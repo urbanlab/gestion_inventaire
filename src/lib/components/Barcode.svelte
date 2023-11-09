@@ -1,13 +1,16 @@
 <script lang="ts">
   import { Html5Qrcode } from "html5-qrcode";
   import { onMount } from "svelte";
+  import { currentBarcodes, currentItems } from "$lib/store";
+
 
   let scanning = false;
   let cameraFacingMode = "environment";
 
   let html5Qrcode: Html5Qrcode;
 
-  export let lastBarcode = "";
+  let lastBarcode = "";
+  $: lastBarcode = $currentBarcodes[$currentBarcodes.length - 1];
 
   function init() {
     html5Qrcode = new Html5Qrcode("reader");
@@ -17,7 +20,7 @@
     html5Qrcode.start(
       { facingMode: cameraFacingMode },
       {
-        fps: 10,
+        fps: 5,
         qrbox: 250,
       },
       onScanSuccess,
@@ -31,8 +34,19 @@
     scanning = false;
   }
 
-  function onScanSuccess(decodedText: string) {
-    lastBarcode = decodedText;
+  async function onScanSuccess(decodedText: string) {
+    lastBarcode = await decodedText;
+    // add lastBarcode to currentBarcodes if not already in
+    if (!$currentBarcodes?.includes(lastBarcode)) {
+      // check if lastBarcode is in itemsStore
+      const item = $currentItems.data.find((item) => item.id_code_barre === lastBarcode);
+      console.log(`item: ${item}`);
+      if (item) {
+        // add item to currentBarcodes
+        $currentBarcodes = [...$currentBarcodes, lastBarcode];
+      }
+    }
+    console.log(`Code scanned = ${decodedText}`);
   }
 
   function onScanFailure(error: string) {

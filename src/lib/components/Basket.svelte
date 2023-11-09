@@ -11,7 +11,6 @@
   let itemsBasket: any[] = [];
   let io = true; // io = input / output
   let projet = "";
-  let lastBarcode = "";
   let showBarcode = false;
   let updating = false;
 
@@ -27,13 +26,6 @@
     $currentBarcodes?.includes(item.id_code_barre)
   );
 
-  // if lastBarcode  is not empty and currentBarcodes does not include lastBarcode
-  $: if (lastBarcode && !currentBarcodes.includes(lastBarcode)) {
-    // add lastBarcode to currentBarcodes
-    $currentBarcodes = [...$currentBarcodes, lastBarcode];
-    // reset lastBarcode
-    lastBarcode = "";
-  }
 
   function submitBasket(projet: string) {
     // for each item in itemsBasket change the projet in the localStorage
@@ -101,7 +93,7 @@
         showBarcode = false;
       }}>FERMER</button
     >
-    <Barcode bind:lastBarcode />
+    <Barcode />
   </div>
 {/if}
 <section class="w-screen h-screen">

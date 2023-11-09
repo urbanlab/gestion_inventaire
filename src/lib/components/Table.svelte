@@ -63,7 +63,7 @@
           {#each items.slice(0, 100) as item}
             <tr>
               <td>
-                {#if $currentBarcodes.includes(item.id_code_barre)}
+                {#if $currentBarcodes?.includes(item.id_code_barre)}
                   <button
                     class="btn bg-error-500 text-black"
                     on:click={() => {

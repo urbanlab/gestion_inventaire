@@ -19,6 +19,10 @@ export const getCurrentBarcodes = () => {
     //get current barcodes from local storage
     const barcodes = localStorage.getItem("barcodes");
     currentBarcodes.set(barcodes ? JSON.parse(barcodes) : []);
+    // if local storage is empty, set it to empty array
+    if (!localStorage.getItem("barcodes")) {
+        currentBarcodes.set([]);
+    }
     // subscibe to current barcodes
     currentBarcodes.subscribe((value) => {
         localStorage.setItem("barcodes", JSON.stringify(value));
