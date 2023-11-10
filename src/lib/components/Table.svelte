@@ -72,7 +72,8 @@
                   >
                     <p>Supprimer</p>
                   </button>
-                {:else if isNaN(item.id_code_barre)}{:else}
+                {:else if (!item.id_code_barre)}
+                {:else}
                   <button
                     class="btn bg-secondary-500"
                     on:click={() => {
