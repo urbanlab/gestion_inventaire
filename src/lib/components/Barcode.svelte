@@ -57,17 +57,7 @@
     //console.warn(`Code scan error = ${error}`);
   }
 
-  function toggleCamera() {
-    if (cameraFacingMode === "environment") {
-      cameraFacingMode = "user";
-    } else {
-      cameraFacingMode = "environment";
-    }
-    if (scanning) {
-      stop();
-      start();
-    }
-  }
+
 
   onMount(() => {
     init();
@@ -76,7 +66,6 @@
 </script>
 
 <main class="text-white">
-  <button on:click={toggleCamera}>Toggle Camera</button>
   <p class="text-white">Item: {itemName}</p>
   <p class="text-white">Last code: {lastBarcode}</p>
   <reader id="reader" />

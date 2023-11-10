@@ -134,7 +134,7 @@
         <h3>Projet</h3>
         <p><i>Personne et/ou projet</i></p>
         <input
-          class="textarea"
+          class="textarea p-2"
           type="text"
           bind:value={projet}
           placeholder="projet"
