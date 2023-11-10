@@ -11,6 +11,21 @@
         url: window.location.href,
         message: '',
     }
+
+    async function sendFeedback() {
+        // send post request to /api/feedback/add
+        const res = await fetch('/api/feedback/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(feedback),
+        });
+        if (res.ok) {
+            // addFeedback(feedback);
+            show = false;
+        }
+    }
     
     </script>
     <section class="">
@@ -28,7 +43,7 @@
                         <span>Message</span>
                         <textarea class="textarea" rows="4" placeholder="Sur firefox lorsque je clique sur le boutton, aucune action ne ce declenche" bind:value={feedback.message}></textarea>
                     </label>
-                    <button type="button" class="btn variant-filled" on:click={() => show = false}>Envoyer</button>
+                    <button type="button" class="btn variant-filled" on:click={() => {sendFeedback()}}>Envoyer</button>
                 </form>
             </div>
         {/if}

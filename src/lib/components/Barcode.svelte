@@ -10,6 +10,7 @@
   let html5Qrcode: Html5Qrcode;
 
   let lastBarcode = "";
+  let itemName = "No item found";
   $: lastBarcode = $currentBarcodes[$currentBarcodes.length - 1];
 
   function init() {
@@ -40,10 +41,13 @@
     if (!$currentBarcodes?.includes(lastBarcode)) {
       // check if lastBarcode is in itemsStore
       const item = $currentItems.data.find((item) => item.id_code_barre === lastBarcode);
-      console.log(`item: ${item}`);
       if (item) {
+        itemName = item.descriptif;
         // add item to currentBarcodes
         $currentBarcodes = [...$currentBarcodes, lastBarcode];
+      }
+      else {
+        itemName = "No item found";
       }
     }
     console.log(`Code scanned = ${decodedText}`);
@@ -73,6 +77,7 @@
 
 <main class="text-white">
   <button on:click={toggleCamera}>Toggle Camera</button>
+  <p class="text-white">Item: {itemName}</p>
   <p class="text-white">Last code: {lastBarcode}</p>
   <reader id="reader" />
 </main>
