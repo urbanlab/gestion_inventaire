@@ -1,4 +1,4 @@
-export interface Page {
+export interface NotionPage {
     object: string;
     id: string;
     created_time: string;
@@ -20,6 +20,11 @@ export interface PageProperties {
         rich_text: [];
     };
     id_code_barre: {
+        id: string;
+        type: string;
+        rich_text: [];
+    };
+    J_localisation: {
         id: string;
         type: string;
         rich_text: [];

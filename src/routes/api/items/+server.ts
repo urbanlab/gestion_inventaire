@@ -1,14 +1,16 @@
 import { json } from '@sveltejs/kit';
 import { getDatabaseItems } from '$lib/notion';
+import { Item, NotionPage } from '../../../models';
 
 export const GET = async () => {
-    let database: any[];
+    let database: Promise<Array<NotionPage>> ;
     try {
         database = await getDatabaseItems();
         // filter to only get descriptif returnned by the database {﻿descriptif, I_projet}
-        const filteredDatabase = database.map((item) => {
+        const filteredDatabase: Array<Item> = database.map((item) => {
             return {
                 id: item.id,
+                localisation: item.properties.J_localisation?.rich_text[0]?.text.content,
                 id_code_barre: item.properties.id_code_barres?.rich_text[0]?.text.content,
                 utilisation: item.properties.H_utilisation?.select?.name,
                 descriptif: item.properties["descriptif"]?.title[0]?.text.content,

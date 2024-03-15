@@ -2,6 +2,7 @@ export interface Item {
     id: string;
     id_code_barre: string;
     utilisation: string;
+    localisation: string;
     descriptif: string;
     projet: string;
     quantite_totale: number;
