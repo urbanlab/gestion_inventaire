@@ -39,6 +39,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@notionhq/client": "^2.2.3",
     "html5-qrcode": "^2.3.4",
+    "simple-svelte-autocomplete": "^2.5.2",
     "svelte-fa": "^3.0.4",
     "vite-plugin-tailwind-purgecss": "^0.1.3"
   }

@@ -6,6 +6,7 @@
   import Fa from "svelte-fa";
   import { faTrash } from "@fortawesome/free-solid-svg-icons";
   import Barcode from "./Barcode.svelte";
+  import Autocomplete from "./Autocomplete.svelte";
 
   export let items: Items;
   let itemsBasket: any[] = [];
@@ -25,7 +26,6 @@
   $: itemsBasket = items?.filter((item: Item) =>
     $currentBarcodes?.includes(item.id_code_barre)
   );
-
 
   function submitBasket(projet: string) {
     // for each item in itemsBasket change the projet in the localStorage
@@ -131,6 +131,7 @@
         >
       </div>
       <div class=" p-4">
+        <Autocomplete />
         <h3>Projet</h3>
         <p><i>Personne et/ou projet</i></p>
         <input
